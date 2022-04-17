@@ -1,0 +1,249 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "NO:ON - Scheduling",
+    "description": "Make Board View for Web Practice",
+    "contact": {
+      "email": "noon.official.dev@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "explore github of NO:ON",
+    "url": "https://github.com/NOON-official"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Project",
+      "description": "Everything about your Project"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/project": {
+      "post": {
+        "tags": ["Project"],
+        "summary": "프로젝트 생성",
+        "description": "생성된 프로젝트 정보 반환",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "format": "60byte"
+                  },
+                  "description": {
+                    "type": "string",
+                    "format": "1500byte"
+                  }
+                }
+              },
+              "examples": {
+                "project": {
+                  "summary": "프로젝트 생성 예시",
+                  "value": {
+                    "title": "어쩌구",
+                    "description": "저쩌구"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "프로젝트 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "프로젝트 생성에 성공하였습니다"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Project"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지 않은 값",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fail"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Response Body",
+                    "value": {
+                      "status": 400,
+                      "success": false,
+                      "message": "모든 항목을 입력해주세요"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "XXDFAdgdS"
+          },
+          "title": {
+            "type": "string",
+            "format": "60byte",
+            "example": "보드뷰 만들기"
+          },
+          "intro": {
+            "type": "string",
+            "format": "150byte",
+            "example": "스케줄링을 위한 보드뷰를 만들어보자"
+          },
+          "description": {
+            "type": "string",
+            "format": "1500byte",
+            "example": "규규성, React랑 Nodejs를 사용하고 어쩌구 저쩌구"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-04-03T05:01:09.091Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-04-03T05:01:09.091Z"
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "examples": {
+          "1": {
+            "summary": "Response Body",
+            "value": {
+              "status": 500,
+              "success": false,
+              "message": "서버 내 오류"
+            }
+          }
+        }
+      },
+      "Success": {
+        "type": "object",
+        "required": ["status", "success", "message", "data"],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "Fail": {
+        "type": "object",
+        "required": ["status", "success", "message"],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "NullValue": {
+        "description": "Request Body에 필요한 값이 없음",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Fail"
+            },
+            "examples": {
+              "1": {
+                "summary": "Response Body",
+                "value": {
+                  "status": 400,
+                  "success": false,
+                  "message": "필요한 값이 없습니다."
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "서버 내부 오류",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Fail"
+            },
+            "examples": {
+              "1": {
+                "summary": "Response Body",
+                "value": {
+                  "status": 500,
+                  "success": false,
+                  "message": "서버 내 오류"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
