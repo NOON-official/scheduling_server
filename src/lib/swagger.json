@@ -19,46 +19,54 @@
   ],
   "tags": [
     {
-      "name": "Project",
-      "description": "Everything about your Project"
-    },
-    {
-      "name": "user",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "name": "Card",
+      "description": "operations of cards"
     }
   ],
   "paths": {
-    "/project": {
+    "/card": {
       "post": {
-        "tags": ["Project"],
-        "summary": "프로젝트 생성",
-        "description": "생성된 프로젝트 정보 반환",
+        "tags": ["Card"],
+        "summary": "새로운 카드 생성",
+        "description": "생성된 카드 정보 반환",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "properties": {
-                  "title": {
+                  "content": {
                     "type": "string",
-                    "format": "60byte"
+                    "format": "300byte",
+                    "example": "라면 먹기"
                   },
-                  "description": {
+                  "deadline": {
                     "type": "string",
-                    "format": "1500byte"
+                    "format": "date-time",
+                    "example": "2022-04-03T05:01:09.091Z"
+                  },
+                  "detail": {
+                    "type": "string",
+                    "format": "300byte",
+                    "example": "육개장으로"
                   }
-                }
+                },
+                "required": ["content", "deadline"]
               },
               "examples": {
-                "project": {
-                  "summary": "프로젝트 생성 예시",
+                "0": {
+                  "summary": "카드 생성 예시1",
                   "value": {
-                    "title": "어쩌구",
-                    "description": "저쩌구"
+                    "content": "라면 먹기",
+                    "deadline": "2022/04/23",
+                    "detail": "육개장으로"
+                  }
+                },
+                "1": {
+                  "summary": "카드 생성 예시2",
+                  "value": {
+                    "content": "라면 먹기",
+                    "deadline": "내일 10시"
                   }
                 }
               }
@@ -67,7 +75,7 @@
         },
         "responses": {
           "200": {
-            "description": "프로젝트 생성 성공",
+            "description": "카드 생성 성공",
             "content": {
               "application/json": {
                 "schema": {
@@ -82,10 +90,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "프로젝트 생성에 성공하였습니다"
+                      "example": "카드 생성에 성공하였습니다"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/Project"
+                      "$ref": "#/components/schemas/Card"
                     }
                   }
                 }
@@ -105,7 +113,77 @@
                     "value": {
                       "status": 400,
                       "success": false,
-                      "message": "모든 항목을 입력해주세요"
+                      "message": "필수 항목을 모두 입력해주세요"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Card"],
+        "summary": "모든 카드 조회",
+        "description": "모든 카드 정보 반환",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "모든 카드 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "모든 카드 조회에 성공하였습니다"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {
+                        "card": [
+                          {
+                            "id": "XXDFAdgdS",
+                            "content": "라면 먹기",
+                            "deadline": "2022/04/23",
+                            "detail": "육개장으로",
+                            "state": 0,
+                            "createdAt": "2022-04-03T05:01:09.091Z",
+                            "updatedAt": "2022-04-03T05:01:09.091Z",
+                            "isDeleted": false
+                          },
+                          {
+                            "id": "aXDFdafS",
+                            "content": "운동하기",
+                            "deadline": "오늘 저녁",
+                            "detail": "한강가서 러닝하기",
+                            "state": 2,
+                            "createdAt": "2022-04-03T05:01:09.091Z",
+                            "updatedAt": "2022-04-03T05:01:09.091Z",
+                            "isDeleted": false
+                          },
+                          {
+                            "id": "qXeqrtgdS",
+                            "content": "밥 해먹기",
+                            "deadline": "오늘 아침",
+                            "state": 1,
+                            "createdAt": "2022-04-03T05:01:09.091Z",
+                            "updatedAt": "2022-04-03T05:01:09.091Z",
+                            "isDeleted": false
+                          }
+                        ]
+                      }
                     }
                   }
                 }
@@ -117,31 +195,133 @@
           }
         }
       }
+    },
+    "/card/{id}": {
+      "put": {
+        "tags": ["Card"],
+        "summary": "카드 상태 업데이트",
+        "description": "카드 상태 업데이트 후 해당 카드 정보 반환",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "카드 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "currentState": {
+                    "type": "integer",
+                    "example": "0"
+                  },
+                  "newState": {
+                    "type": "integer",
+                    "example": "1"
+                  }
+                },
+                "required": ["currentState", "newState"]
+              },
+              "examples": {
+                "0": {
+                  "summary": "카드 상태 업데이트 예시",
+                  "value": {
+                    "currentState": "2",
+                    "newState": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "카드 상태 업데이트 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "카드 상태 업데이트에 성공하였습니다"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Card"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400(1)": {
+            "$ref": "#/components/responses/NullValue"
+          },
+          "400(2)": {
+            "$ref": "#/components/responses/OutOfValue"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "Project": {
+      "Card": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "format": "90byte",
             "example": "XXDFAdgdS"
           },
-          "title": {
+          "content": {
             "type": "string",
-            "format": "60byte",
-            "example": "보드뷰 만들기"
+            "format": "300byte",
+            "example": "라면 먹기"
           },
-          "intro": {
+          "deadline": {
             "type": "string",
-            "format": "150byte",
-            "example": "스케줄링을 위한 보드뷰를 만들어보자"
+            "format": "90byte",
+            "example": "2022/04/23"
           },
-          "description": {
+          "detail": {
             "type": "string",
-            "format": "1500byte",
-            "example": "규규성, React랑 Nodejs를 사용하고 어쩌구 저쩌구"
+            "format": "300byte",
+            "example": "육개장으로"
+          },
+          "state": {
+            "type": "integer",
+            "default": 0,
+            "examples": {
+              "0": {
+                "summary": "to do",
+                "value": 0
+              },
+              "1": {
+                "summary": "in progress",
+                "value": 1
+              },
+              "2": {
+                "summary": "done",
+                "value": 2
+              }
+            }
           },
           "createdAt": {
             "type": "string",
@@ -217,7 +397,27 @@
                 "value": {
                   "status": 400,
                   "success": false,
-                  "message": "필요한 값이 없습니다."
+                  "message": "필요한 값이 없습니다"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OutOfValue": {
+        "description": "잘못된 파라미터",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Fail"
+            },
+            "examples": {
+              "1": {
+                "summary": "Response Body",
+                "value": {
+                  "status": 400,
+                  "success": false,
+                  "message": "파라미터 값이 잘못되었습니다"
                 }
               }
             }
