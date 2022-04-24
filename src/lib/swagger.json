@@ -49,9 +49,13 @@
                     "type": "string",
                     "format": "300byte",
                     "example": "육개장으로"
+                  },
+                  "status": {
+                    "type": "integer",
+                    "example": 0
                   }
                 },
-                "required": ["content", "deadline"]
+                "required": ["content", "deadline", "status"]
               },
               "examples": {
                 "0": {
@@ -59,14 +63,16 @@
                   "value": {
                     "content": "라면 먹기",
                     "deadline": "2022/04/23",
-                    "detail": "육개장으로"
+                    "detail": "육개장으로",
+                    "status": 0
                   }
                 },
                 "1": {
                   "summary": "카드 생성 예시2",
                   "value": {
                     "content": "라면 먹기",
-                    "deadline": "내일 10시"
+                    "deadline": "내일 10시",
+                    "status": 1
                   }
                 }
               }
@@ -272,6 +278,100 @@
           },
           "400(2)": {
             "$ref": "#/components/responses/OutOfValue"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Card"],
+        "summary": "카드 삭제",
+        "description": "삭제 후 모든 카드 정보 반환",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "카드 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "카드 삭제 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "카드 삭제에 성공하였습니다"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {
+                        "card": [
+                          {
+                            "id": "XXDFAdgdS",
+                            "content": "라면 먹기",
+                            "deadline": "2022/04/23",
+                            "detail": "육개장으로",
+                            "state": 0,
+                            "createdAt": "2022-04-03T05:01:09.091Z",
+                            "updatedAt": "2022-04-03T05:01:09.091Z",
+                            "isDeleted": false
+                          },
+                          {
+                            "id": "aXDFdafS",
+                            "content": "운동하기",
+                            "deadline": "오늘 저녁",
+                            "detail": "한강가서 러닝하기",
+                            "state": 2,
+                            "createdAt": "2022-04-03T05:01:09.091Z",
+                            "updatedAt": "2022-04-03T05:01:09.091Z",
+                            "isDeleted": false
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/OutOfValue"
+          },
+          "404": {
+            "description": "존재하지 않는 카드",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fail"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Response Body",
+                    "value": {
+                      "status": 404,
+                      "success": false,
+                      "message": "존재하지 않는 카드입니다"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
