@@ -202,14 +202,14 @@
         }
       }
     },
-    "/card/{id}": {
+    "/card/{cardId}": {
       "put": {
         "tags": ["Card"],
         "summary": "카드 상태 업데이트",
         "description": "카드 상태 업데이트 후 해당 카드 정보 반환",
         "parameters": [
           {
-            "name": "id",
+            "name": "cardId",
             "in": "path",
             "description": "카드 ID",
             "required": true,
@@ -290,7 +290,7 @@
         "description": "삭제 후 모든 카드 정보 반환",
         "parameters": [
           {
-            "name": "id",
+            "name": "cardId",
             "in": "path",
             "description": "카드 ID",
             "required": true,
