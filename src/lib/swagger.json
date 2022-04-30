@@ -62,7 +62,7 @@
                   "summary": "카드 생성 예시1",
                   "value": {
                     "content": "라면 먹기",
-                    "deadline": "2022/04/23",
+                    "deadline": "2022-04-03T05:01:09.091Z",
                     "detail": "육개장으로",
                     "status": 0
                   }
@@ -71,7 +71,7 @@
                   "summary": "카드 생성 예시2",
                   "value": {
                     "content": "라면 먹기",
-                    "deadline": "내일 10시",
+                    "deadline": "2022-04-03T05:01:09.091Z",
                     "status": 1
                   }
                 }
@@ -162,7 +162,7 @@
                           {
                             "id": "XXDFAdgdS",
                             "content": "라면 먹기",
-                            "deadline": "2022/04/23",
+                            "deadline": "2022-04-03T05:01:09.091Z",
                             "detail": "육개장으로",
                             "state": 0,
                             "createdAt": "2022-04-03T05:01:09.091Z",
@@ -172,7 +172,7 @@
                           {
                             "id": "aXDFdafS",
                             "content": "운동하기",
-                            "deadline": "오늘 저녁",
+                            "deadline": "2022-04-03T05:01:09.091Z",
                             "detail": "한강가서 러닝하기",
                             "state": 2,
                             "createdAt": "2022-04-03T05:01:09.091Z",
@@ -182,7 +182,7 @@
                           {
                             "id": "qXeqrtgdS",
                             "content": "밥 해먹기",
-                            "deadline": "오늘 아침",
+                            "deadline": "2022-04-03T05:01:09.091Z",
                             "state": 1,
                             "createdAt": "2022-04-03T05:01:09.091Z",
                             "updatedAt": "2022-04-03T05:01:09.091Z",
@@ -325,7 +325,7 @@
                           {
                             "id": "XXDFAdgdS",
                             "content": "라면 먹기",
-                            "deadline": "2022/04/23",
+                            "deadline": "2022-04-03T05:01:09.091Z",
                             "detail": "육개장으로",
                             "state": 0,
                             "createdAt": "2022-04-03T05:01:09.091Z",
@@ -335,7 +335,7 @@
                           {
                             "id": "aXDFdafS",
                             "content": "운동하기",
-                            "deadline": "오늘 저녁",
+                            "deadline": "2022-04-03T05:01:09.091Z",
                             "detail": "한강가서 러닝하기",
                             "state": 2,
                             "createdAt": "2022-04-03T05:01:09.091Z",
@@ -397,8 +397,8 @@
           },
           "deadline": {
             "type": "string",
-            "format": "90byte",
-            "example": "2022/04/23"
+            "format": "date-time",
+            "example": "2022-04-03T05:01:09.091Z"
           },
           "detail": {
             "type": "string",
