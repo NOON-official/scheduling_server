@@ -23,4 +23,5 @@ module.exports = {
   // 투두리스트 카드
   CARD_BLANK: '필수 항목을 모두 입력해주세요',
   CREATE_CARD_SUCCESS: '카드 생성에 성공하였습니다',
+  GET_CARD_SUCCESS: '모든 카드 조회에 성공하였습니다',
 };
