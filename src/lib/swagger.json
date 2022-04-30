@@ -50,12 +50,12 @@
                     "format": "300byte",
                     "example": "육개장으로"
                   },
-                  "status": {
+                  "state": {
                     "type": "integer",
                     "example": 0
                   }
                 },
-                "required": ["content", "deadline", "status"]
+                "required": ["content", "deadline", "state"]
               },
               "examples": {
                 "0": {
@@ -64,7 +64,7 @@
                     "content": "라면 먹기",
                     "deadline": "2022-04-03T05:01:09.091Z",
                     "detail": "육개장으로",
-                    "status": 0
+                    "state": 0
                   }
                 },
                 "1": {
@@ -72,7 +72,7 @@
                   "value": {
                     "content": "라면 먹기",
                     "deadline": "2022-04-03T05:01:09.091Z",
-                    "status": 1
+                    "state": 1
                   }
                 }
               }
