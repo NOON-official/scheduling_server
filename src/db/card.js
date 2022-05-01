@@ -25,28 +25,28 @@ const createCard = async (card) => {
 };
 
 const getCards = async () => {
-  const raw = localStorage.getItem('cards');
-  if (!raw) {
+  const rows = localStorage.getItem('cards');
+  if (!rows) {
     return [];
   }
-  return JSON.parse(raw);
+  return JSON.parse(rows);
 };
 
 const getCardsByClient = async () => {
-  let raw = localStorage.getItem('cards');
-  raw = JSON.parse(raw);
+  let rows = localStorage.getItem('cards');
+  rows = JSON.parse(rows);
 
   // 카드가 없는 경우
-  if (!raw || !raw.length) {
+  if (!rows || !rows.length) {
     return [];
   }
 
   // 삭제된 카드 필터링
-  raw = raw.filter((card) => {
+  rows = rows.filter((card) => {
     if (card['is_deleted'] === false) return card;
   });
 
-  return convertSnakeToCamel.keysToCamel(raw);
+  return convertSnakeToCamel.keysToCamel(rows);
 };
 
 const saveCards = async (cards) => {
