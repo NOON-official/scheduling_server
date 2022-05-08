@@ -7,7 +7,6 @@ const logger = require("../../config/winston");
 module.exports = async (req, res) => {
   try {
     const cards = await cardDB.getCardsByClient();
-    lalala;
     res.status(statusCode.OK).send(
       util.success(statusCode.OK, responseMessage.GET_CARD_SUCCESS, {
         card: cards,
