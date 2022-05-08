@@ -49,6 +49,39 @@ const getCardsByClient = async () => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+const deleteCardById = async (cardId) => {
+  let rows = localStorage.getItem('cards');
+  rows = JSON.parse(rows);
+
+  if (!rows || !rows.length) {
+    return null;
+  }
+
+  let existingCards = []; // 삭제할 카드를 제외한 나머지 카드
+
+  // 삭제할 카드 찾기
+  let deletingCard = rows.filter((card) => {
+    if (card['id'] === cardId) return card;
+    else existingCards.push(card);
+  });
+
+  if (!deletingCard.length) {
+    // 해당 카드가 존재하지 않는 경우
+    return null;
+  } else {
+    deletingCard = deletingCard[0];
+    deletingCard['is_deleted'] = true;
+    deletingCard['updated_at'] = new Date();
+  }
+
+  existingCards.push(deletingCard); // soft delete된 후의 카드를 저장
+  await saveCards(existingCards);
+
+  const cards = getCardsByClient();
+
+  return cards;
+};
+
 const saveCards = async (cards) => {
   localStorage.setItem('cards', JSON.stringify(cards));
 };
@@ -58,4 +91,5 @@ module.exports = {
   getCardsByClient,
   createCard,
   saveCards,
+  deleteCardById,
 };
