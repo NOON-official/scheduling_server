@@ -1,11 +1,12 @@
-const util = require('../../../src/lib/util');
-const statusCode = require('../../../src/constants/statusCode');
-const responseMessage = require('../../../src/constants/responseMessage');
-const { cardDB } = require('../../../src/db');
+const util = require("../../../src/lib/util");
+const statusCode = require("../../../src/constants/statusCode");
+const responseMessage = require("../../../src/constants/responseMessage");
+const { cardDB } = require("../../../src/db");
+const logger = require("../../config/winston");
 
 module.exports = async (req, res) => {
   const isEmpty = (value) => {
-    if (value === '' || value === null || value === undefined) {
+    if (value === "" || value === null || value === undefined) {
       return true;
     } else {
       return false;
@@ -34,6 +35,7 @@ module.exports = async (req, res) => {
       );
   } catch (error) {
     console.log(error);
+    logger.error(error.toString());
 
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

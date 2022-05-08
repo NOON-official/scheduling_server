@@ -11,6 +11,7 @@
 
 # data
 /data
+/logs
 
 # misc
 .DS_Store
