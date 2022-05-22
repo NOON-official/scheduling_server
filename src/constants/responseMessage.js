@@ -25,5 +25,7 @@ module.exports = {
   CREATE_CARD_SUCCESS: '카드 생성에 성공하였습니다',
   GET_CARD_SUCCESS: '모든 카드 조회에 성공하였습니다',
   NO_CARD: '존재하지 않는 카드입니다',
+  UPDATE_CARD_SUCCESS: '카드 상태 업데이트에 성공하였습니다',
+  INVALID_CARD_STATE: '유효하지 않은 카드 상태입니다',
   DELETE_CARD_SUCCESS: '카드 삭제에 성공하였습니다',
 };
