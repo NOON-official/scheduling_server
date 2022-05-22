@@ -277,7 +277,24 @@
             "$ref": "#/components/responses/NullValue"
           },
           "400(2)": {
-            "$ref": "#/components/responses/OutOfValue"
+            "description": "1. Request Body의 카드 state가 [0, 1, 2]를 벗어나는 경우 \t\n 2. currentState와 newState가 같은 경우",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fail"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Response Body",
+                    "value": {
+                      "status": 400,
+                      "success": false,
+                      "message": "유효하지 않은 카드 상태입니다"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
