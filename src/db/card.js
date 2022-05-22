@@ -82,14 +82,53 @@ const deleteCardById = async (cardId) => {
   return cards;
 };
 
+const updateCardStateById = async (cardId, newState) => {
+  let rows = localStorage.getItem('cards');
+  rows = JSON.parse(rows);
+
+  if (!rows || !rows.length) {
+    return null;
+  }
+
+  let existingCards = []; // 업데이트할 카드를 제외한 나머지 카드
+
+  // 업데이트할 카드 찾기
+  let updatingCard = rows.filter((card) => {
+    if (card['id'] === cardId) return card;
+    else existingCards.push(card);
+  });
+
+  if (!updatingCard.length) {
+    // 해당 카드가 존재하지 않는 경우
+    return null;
+  } else {
+    updatingCard = updatingCard[0];
+    updatingCard['state'] = newState;
+    updatingCard['updated_at'] = new Date();
+  }
+
+  existingCards.push(updatingCard); // 업데이트된 후의 카드를 저장
+  await saveCards(existingCards);
+
+  rows = localStorage.getItem('cards');
+  rows = JSON.parse(rows);
+
+  let updatedCard = rows.filter((card) => {
+    if (card['id'] === cardId) return card;
+  })[0];
+
+  return convertSnakeToCamel.keysToCamel(updatedCard);
+};
+
 const saveCards = async (cards) => {
   localStorage.setItem('cards', JSON.stringify(cards));
 };
 
 module.exports = {
+  createCard,
   getCards,
   getCardsByClient,
-  createCard,
-  saveCards,
+  updateCardStateById,
   deleteCardById,
+  saveCards,
 };
